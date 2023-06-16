@@ -1,0 +1,26 @@
+def convert_to_any_base(num, b):
+    digits = []
+    while num != 0:
+        digits.append(str(num % b))
+        num //= b
+    result = ''.join(digits[::-1])
+    return result
+
+def solution(n, b):
+    minion_id_list = []
+    k = len(n)
+    count = 0
+
+    while n not in minion_id_list:
+        minion_id_list.append(n)
+        x = ''.join(sorted(n, reverse=True))
+        y = ''.join(sorted(n))
+        z = int(x, b) - int(y, b)
+        n = convert_to_any_base(z, b)
+        n = '0' * (k - len(n)) + n
+        count += 1
+
+    start_index = minion_id_list.index(n)
+    cycle_length = count - start_index
+
+    return cycle_length
